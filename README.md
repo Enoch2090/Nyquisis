@@ -9,8 +9,8 @@ The duplicates are used for presentation, but they become annoying when one want
 Please clone the repo using:
 
 ```
-git clone https://github.com/Enoch2090/pdfDropDuplicates.git pdfDropDuplicate
-cd pdfDropDuplicate
+$ git clone https://github.com/Enoch2090/pdfDropDuplicates.git pdfDropDuplicate
+$ cd pdfDropDuplicate
 ```
 
 ## Dependency
@@ -18,21 +18,21 @@ cd pdfDropDuplicate
 This tool uses OpenCV and Poppler. Therefore you need to install them separately.   
 **For macOS**:  
 ```shell
-brew install opencv
-echo /usr/local/opt/opencv/lib/python3.6/site-packages >> /usr/local/lib/python3.6/site-packages/opencv3.pth
-brew install poppler
+$ brew install opencv
+$ echo /usr/local/opt/opencv/lib/python3.6/site-packages >> /usr/local/lib/python3.6/site-packages/opencv3.pth
+$ brew install poppler
 ```
   
 **For Ubuntu**:  
 ```shell
-sudo apt-get install python-opencv  
-sudo apt-get install python-poppler
+$ sudo apt-get install python-opencv  
+$ sudo apt-get install python-poppler
 ```
   
 Then, use the following command to install all Python dependencies:
 
 ```shell 
-pip3 install -r requirements.txt
+$ pip3 install -r requirements.txt
 ```
 
 ## Usage
