@@ -53,6 +53,7 @@ def drop_duplicates(fpath):
     # Obtain hash values
     print("Reading PDF at", fpath+'...')
     file = fitz.open(fpath)
+    toc = file.getToC()
     images = images = list(pix2np(page.getPixmap()) for page in file)
     hash_list = all_hash(images)
     # Calculate Hamming distances
@@ -64,7 +65,7 @@ def drop_duplicates(fpath):
         diff.append(hamming_dist)
     diff.append(15000000)
     print("All Hamming distance calculated.")
-    # Write to new file
+    # Select pages to keep.
     THRESHOLD = 10000000
     def geq(i): return i >= THRESHOLD
     pages_tokeep = list(map(geq, diff))
@@ -74,6 +75,14 @@ def drop_duplicates(fpath):
             page_numbers.append(i)
     kept_page_count = sum(list(map(int, pages_tokeep)))
     file.select(page_numbers)
+    # Refractor TOC.
+    for i in range(len(toc)):
+        pgn = toc[i][2]
+        while not pages_tokeep[pgn]:
+            pgn += 1
+        pgn -= pgn - sum(list(map(int, pages_tokeep))[0:pgn])
+        toc[i][2] = pgn
+    file.setToC(toc)
     new_fpath = fpath.replace(".pdf", "_modified.pdf")
     file.save(new_fpath)
     print("Dropped", len(hash_list)-kept_page_count,

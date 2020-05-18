@@ -50,12 +50,13 @@ This will traverse all PDF files under the directory, and generate duplicate-dro
 ## Features
 - [X] Generate PDF files that without duplicates.
 - [X] Traverse a given directory to perform drop tasks.
-- [ ] Preserve the menu structure in the original PDF file.
+- [X] Preserve the TOC structure in the original PDF file.
 - [ ] Modify the page number at the same time.
 - [ ] Log printer.
 - [ ] More custom configurations.
 
 ## Update Logs:
+- 2020/5/19: Now pdfDropDuplicates will preserve the original TOC structure.
 - 2020/5/18: Code Refactored. Uses PyMuPDF now instead of PyPDF2 and pdf2image, and also rewrited some part to remove OpenCV dependency.
 - 2020/5/17: Project INIT.
 
