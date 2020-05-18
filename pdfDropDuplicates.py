@@ -54,7 +54,7 @@ def drop_duplicates(fpath):
     print("Reading PDF at", fpath+'...')
     file = fitz.open(fpath)
     toc = file.getToC()
-    images = images = list(pix2np(page.getPixmap()) for page in file)
+    images = list(pix2np(page.getPixmap()) for page in file)
     hash_list = all_hash(images)
     # Calculate Hamming distances
     hash_altr = hash_list[1::]
