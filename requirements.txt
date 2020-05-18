@@ -1,7 +1,5 @@
 os
 argparse
 scipy
-cv2
 numpy
-PyPDF2
-pdf2image
+PyMuPDF

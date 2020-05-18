@@ -15,21 +15,7 @@ $ cd pdfDropDuplicate
 
 ## Dependency
 
-This tool uses OpenCV and Poppler. Therefore you need to install them separately.   
-**For macOS**:  
-```shell
-$ brew install opencv
-$ echo /usr/local/opt/opencv/lib/python3.6/site-packages >> /usr/local/lib/python3.6/site-packages/opencv3.pth
-$ brew install poppler
-```
-  
-**For Ubuntu**:  
-```shell
-$ sudo apt-get install python-opencv  
-$ sudo apt-get install python-poppler
-```
-  
-Then, use the following command to install all Python dependencies:
+Use the following command to install all Python dependencies:
 
 ```shell 
 $ pip3 install -r requirements.txt
@@ -68,6 +54,10 @@ This will traverse all PDF files under the directory, and generate duplicate-dro
 - [ ] Modify the page number at the same time.
 - [ ] Log printer.
 - [ ] More custom configurations.
+
+## Update Logs:
+- 2020/5/18: Code Refactored. Uses PyMuPDF now instead of PyPDF2 and pdf2image, and also rewrited some part to remove OpenCV dependency.
+- 2020/5/17: Project INIT.
 
 ## Licence
 [GNU GPL v3.0](https://www.gnu.org/licenses/gpl-3.0.html)

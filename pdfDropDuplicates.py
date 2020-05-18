@@ -1,8 +1,6 @@
-from pdf2image import convert_from_path, convert_from_bytes
+import fitz
 import scipy.fftpack
-import cv2
 import numpy as np
-import PyPDF2
 import argparse
 import os
 
@@ -12,6 +10,22 @@ def parse_args():
     parser.add_argument(
         "-d", "--dir", help="The directory where your source folder/PDF file at.")
     return parser.parse_args()
+
+
+def pix2np(pix):  # Credit: https://stackoverflow.com/questions/53059007/python-opencv
+    im = np.frombuffer(pix.samples, dtype=np.uint8).reshape(
+        pix.h, pix.w, pix.n)
+    im = np.ascontiguousarray(im[..., [2, 1, 0]])  # rgb to bgr
+    r, g, b = im[:, :, 0], im[:, :, 1], im[:, :, 2]
+    gray = 0.2989 * r + 0.5870 * g + 0.1140 * b
+    return gray
+
+
+def scale(im, nR, nC):  # Credit: https://stackoverflow.com/questions/48121916/numpy-resize-rescale-image/48121996
+    nR0 = len(im)
+    nC0 = len(im[0])
+    return [[im[int(nR0 * r / nR)][int(nC0 * c / nC)]
+             for c in range(nC)] for r in range(nR)]
 
 
 def phash(image, hash_size=32, highfreq_factor=4):
@@ -25,13 +39,12 @@ def phash(image, hash_size=32, highfreq_factor=4):
 
 def all_hash(images):
     SIZE = 32
-    REWIND = 5
     total_len = len(images)
     hash_list = []
     for i in range(total_len):
-        image = np.asarray(images[i].convert("L")).astype(np.float64)
+        image = images[i]
         print("Page", str(i+1)+"/"+str(total_len), "hash obtained.")
-        image = cv2.resize(image, (SIZE, SIZE))
+        image = scale(image, SIZE, SIZE)
         hash_list.append(phash(image).reshape(-1))
     return hash_list
 
@@ -39,7 +52,8 @@ def all_hash(images):
 def drop_duplicates(fpath):
     # Obtain hash values
     print("Reading PDF at", fpath+'...')
-    images = convert_from_path(fpath)
+    file = fitz.open(fpath)
+    images = images = list(pix2np(page.getPixmap()) for page in file)
     hash_list = all_hash(images)
     # Calculate Hamming distances
     hash_altr = hash_list[1::]
@@ -51,21 +65,20 @@ def drop_duplicates(fpath):
     diff.append(15000000)
     print("All Hamming distance calculated.")
     # Write to new file
-    pdfReader = PyPDF2.PdfFileReader(fpath)
-    pdfnums = pdfReader.numPages
-    pdfWriter = PyPDF2.PdfFileWriter()
-    kept_page_count = 0
-    for num in range(pdfnums):
-        if diff[num+1] >= 10000000:
-            pageObj = pdfReader.getPage(num)
-            pdfWriter.addPage(pageObj)
-            kept_page_count += 1
-    new_fpath = fpath.replace('.pdf', '_modified.pdf')
-    with open(new_fpath, 'wb') as pdfOutputFile:
-        pdfWriter.write(pdfOutputFile)
-        print("Dropped", len(hash_list)-kept_page_count,
-              "pages out of", len(hash_list), "pages.")
-        print("New file saved at", new_fpath+'.')
+    THRESHOLD = 10000000
+    def geq(i): return i >= THRESHOLD
+    pages_tokeep = list(map(geq, diff))
+    page_numbers = []
+    for i in range(len(pages_tokeep)-1):
+        if pages_tokeep[i+1]:
+            page_numbers.append(i)
+    kept_page_count = sum(list(map(int, pages_tokeep)))
+    file.select(page_numbers)
+    new_fpath = fpath.replace(".pdf", "_modified.pdf")
+    file.save(new_fpath)
+    print("Dropped", len(hash_list)-kept_page_count,
+          "pages out of", len(hash_list), "pages.")
+    print("New file saved at", new_fpath+'.')
 
 
 def scan(dirc, file_list=[]):
