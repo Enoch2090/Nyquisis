@@ -33,7 +33,7 @@ In this case, it will generate `ve216,chap1,teach_modified.pdf` in the same dire
   
 ![](images/modified.png)
 
-If you are providing a PDF file to the tool, the path to file can be either relative or absolute path. Therefore the following command has the same effect:
+If you are providing a PDF file to the tool, the path to file **can be either relative or absolute path**. Therefore the following command has the same effect:
 
 ```shell
 $ python3 pdfDropDuplicates.py --dir Users/enoch/ve216slides/ve216,chap1,teach.pdf
@@ -62,7 +62,6 @@ This will traverse all PDF files under the directory, and generate duplicate-dro
 
 ## Licence
 [GNU GPL v3.0](https://www.gnu.org/licenses/gpl-3.0.html)
-## Contacts
 Visit: 
 - [My Blog](https://enoch2090.me)  
 - [WhiteGivers](https://whitegivers.com)
