@@ -1,5 +1,5 @@
-os
-argparse
-scipy
-numpy
-PyMuPDF
+fitz==0.0.1.dev2
+numpy==1.20.1
+PyMuPDF==1.18.6
+scipy==1.6.2
+tqdm==4.59.0
