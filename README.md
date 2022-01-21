@@ -51,9 +51,7 @@ This will traverse all PDF files under the directory, and generate duplicate-dro
 
 - 2022/1/20: Remastered.
 - 2020/5/19: Now pdfDropDuplicates will preserve the original TOC structure.
-- 2020/5/18: Code Refactored. Uses PyMuPDF now instead of PyPDF2 and pdf2image, and also rewrited some part to remove OpenCV dependency.
-- 2020/5/17: Project INIT.
+- 2020/5/18: Uses PyMuPDF now instead of PyPDF2 and pdf2image. Also rewrited some part to remove OpenCV dependency.
 
 ## Licence
 [GNU GPL v3.0](https://www.gnu.org/licenses/gpl-3.0.html)
-Visit my blog: [enoch2090](https://enoch2090.me)
