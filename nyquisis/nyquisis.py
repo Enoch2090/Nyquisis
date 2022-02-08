@@ -170,7 +170,7 @@ def main():
             drop_duplicates(file, output=output)
     else:
         assert fpath.suffix in ['.pdf', '.PDF'], f'path argument is not pointing to a pdf file'
-        drop_duplicates(fpath)
+        drop_duplicates(fpath, output=output)
 
 if __name__ == "__main__":
     main()
