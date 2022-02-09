@@ -167,7 +167,7 @@ def main():
     if fpath.is_dir():
         files = fpath.glob('*.pdf')
         for file in files:
-            drop_duplicates(file, output=output)
+            drop_duplicates(file)
     else:
         assert fpath.suffix in ['.pdf', '.PDF'], f'path argument is not pointing to a pdf file'
         drop_duplicates(fpath, output=output)

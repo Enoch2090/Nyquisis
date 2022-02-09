@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 
 setup(name='Nyquisis',
-      version='1.0.1',
+      version='1.0.3',
       description='A simple tool automatically drops the duplicate pages in PDF files.',
       keywords='Nyquisis',
       author='Enoch2090',
