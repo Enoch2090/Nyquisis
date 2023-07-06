@@ -1,5 +1,5 @@
 fitz==0.0.1.dev2
 numpy==1.21.0
 PyMuPDF==1.18.6
-scipy==1.6.2
+scipy==1.10.0
 tqdm==4.59.0
